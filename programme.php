@@ -7,7 +7,6 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 $programmeId = (int) $_GET['id'];
 
-// Get programme details
 $sqlProgramme = "SELECT p.ProgrammeID, p.ProgrammeName, p.Description, l.LevelName, s.Name AS ProgrammeLeader
                  FROM Programmes p
                  JOIN Levels l ON p.LevelID = l.LevelID
@@ -25,7 +24,6 @@ if ($resultProgramme->num_rows === 0) {
 
 $programme = $resultProgramme->fetch_assoc();
 
-// Get modules for this programme
 $sqlModules = "SELECT pm.Year, m.ModuleName, m.Description, s.Name AS ModuleLeader
                FROM ProgrammeModules pm
                JOIN Modules m ON pm.ModuleID = m.ModuleID
@@ -38,7 +36,6 @@ $stmtModules->bind_param("i", $programmeId);
 $stmtModules->execute();
 $resultModules = $stmtModules->get_result();
 
-// Group modules by year
 $modulesByYear = [];
 
 while ($row = $resultModules->fetch_assoc()) {
@@ -80,6 +77,20 @@ while ($row = $resultModules->fetch_assoc()) {
 <?php else: ?>
     <p>No modules found for this programme.</p>
 <?php endif; ?>
+
+<h2>Register Your Interest</h2>
+
+<form action="register_interest.php" method="POST" class="programme-card">
+    <input type="hidden" name="programme_id" value="<?php echo $programme['ProgrammeID']; ?>">
+
+    <label for="student_name">Your Name</label><br>
+    <input type="text" id="student_name" name="student_name" required><br><br>
+
+    <label for="email">Email Address</label><br>
+    <input type="email" id="email" name="email" required><br><br>
+
+    <button type="submit">Submit</button>
+</form>
 
 <p><a href="index.php">← Back to Programmes</a></p>
 
