@@ -7,6 +7,14 @@ if (!isset($_GET['id']) || empty($_GET['id'])) {
 
 $programmeId = (int) $_GET['id'];
 
+$backSearch = isset($_GET['search']) ? trim($_GET['search']) : '';
+$backLevel = isset($_GET['level']) ? trim($_GET['level']) : '';
+
+$backQuery = http_build_query([
+    'search' => $backSearch,
+    'level' => $backLevel
+]);
+
 $sqlProgramme = "SELECT p.ProgrammeID, p.ProgrammeName, p.Description, l.LevelName, s.Name AS ProgrammeLeader
                  FROM Programmes p
                  JOIN Levels l ON p.LevelID = l.LevelID
@@ -92,7 +100,8 @@ while ($row = $resultModules->fetch_assoc()) {
     <button type="submit">Submit</button>
 </form>
 
-<p><a href="index.php">← Back to Programmes</a></p>
+<!-- <p><a href="index.php">← Back to Programmes</a></p> -->
+<p><a href="index.php<?php echo !empty($backQuery) ? '?' . $backQuery : ''; ?>">← Back to Programmes</a></p>
 
 </body>
 </html>

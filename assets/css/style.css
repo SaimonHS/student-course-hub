@@ -50,3 +50,71 @@ th, td {
     padding: 10px;
     border: 1px solid #ddd;
 }
+.page-container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.search-filter-box {
+    background: white;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    flex: 1;
+    min-width: 250px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+select,
+input[type="text"],
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+.button-row {
+    margin-top: 15px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.secondary-button {
+    display: inline-block;
+    padding: 10px 16px;
+    background: #6c757d;
+    color: white;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.secondary-button:hover {
+    background: #565e64;
+    text-decoration: none;
+}
+
+.results-count {
+    margin-bottom: 20px;
+    font-weight: bold;
+}
