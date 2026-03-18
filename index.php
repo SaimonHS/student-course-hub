@@ -9,42 +9,50 @@ if ($level !== 'Undergraduate' && $level !== 'Postgraduate' && $level !== '') {
 }
 
 if ($search !== '' && $level !== '') {
+
     $sql = "SELECT p.ProgrammeID, p.ProgrammeName, p.Description, l.LevelName
             FROM Programmes p
             JOIN Levels l ON p.LevelID = l.LevelID
-            WHERE (p.ProgrammeName LIKE ? OR p.Description LIKE ?)
+            WHERE p.IsPublished = 1
+            AND (p.ProgrammeName LIKE ? OR p.Description LIKE ?)
             AND l.LevelName = ?
             ORDER BY p.ProgrammeName ASC";
 
     $stmt = $conn->prepare($sql);
     $likeSearch = "%" . $search . "%";
     $stmt->bind_param("sss", $likeSearch, $likeSearch, $level);
-}
-elseif ($search !== '') {
+
+} elseif ($search !== '') {
+
     $sql = "SELECT p.ProgrammeID, p.ProgrammeName, p.Description, l.LevelName
             FROM Programmes p
             JOIN Levels l ON p.LevelID = l.LevelID
-            WHERE p.ProgrammeName LIKE ? OR p.Description LIKE ?
+            WHERE p.IsPublished = 1
+            AND (p.ProgrammeName LIKE ? OR p.Description LIKE ?)
             ORDER BY p.ProgrammeName ASC";
 
     $stmt = $conn->prepare($sql);
     $likeSearch = "%" . $search . "%";
     $stmt->bind_param("ss", $likeSearch, $likeSearch);
-}
-elseif ($level !== '') {
+
+} elseif ($level !== '') {
+
     $sql = "SELECT p.ProgrammeID, p.ProgrammeName, p.Description, l.LevelName
             FROM Programmes p
             JOIN Levels l ON p.LevelID = l.LevelID
-            WHERE l.LevelName = ?
+            WHERE p.IsPublished = 1
+            AND l.LevelName = ?
             ORDER BY p.ProgrammeName ASC";
 
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $level);
-}
-else {
+
+} else {
+
     $sql = "SELECT p.ProgrammeID, p.ProgrammeName, p.Description, l.LevelName
             FROM Programmes p
             JOIN Levels l ON p.LevelID = l.LevelID
+            WHERE p.IsPublished = 1
             ORDER BY p.ProgrammeName ASC";
 
     $stmt = $conn->prepare($sql);
@@ -70,25 +78,27 @@ $queryString = http_build_query([
 <body>
 
 <div class="page-container">
+
     <h1>Student Course Hub</h1>
     <p>Explore our available undergraduate and postgraduate programmes.</p>
 
     <form method="GET" action="index.php" class="search-filter-box">
+
         <div class="form-row">
+
             <div class="form-group">
-                <label for="search">Search Programmes</label>
+                <label>Search Programmes</label>
                 <input 
                     type="text" 
-                    id="search" 
                     name="search" 
-                    placeholder="e.g. Cyber Security, Data Science"
                     value="<?php echo htmlspecialchars($search); ?>"
+                    placeholder="e.g. Cyber Security"
                 >
             </div>
 
             <div class="form-group">
-                <label for="level">Filter by Level</label>
-                <select name="level" id="level">
+                <label>Level</label>
+                <select name="level">
                     <option value="">All Levels</option>
                     <option value="Undergraduate" <?php echo ($level === 'Undergraduate') ? 'selected' : ''; ?>>
                         Undergraduate
@@ -98,12 +108,14 @@ $queryString = http_build_query([
                     </option>
                 </select>
             </div>
+
         </div>
 
         <div class="button-row">
             <button type="submit">Search</button>
             <a href="index.php" class="secondary-button">Clear</a>
         </div>
+
     </form>
 
     <p class="results-count">
@@ -112,6 +124,7 @@ $queryString = http_build_query([
 
     <?php if ($result->num_rows > 0): ?>
         <?php while ($row = $result->fetch_assoc()): ?>
+            
             <div class="programme-card">
                 <h2><?php echo htmlspecialchars($row['ProgrammeName']); ?></h2>
                 <p><strong>Level:</strong> <?php echo htmlspecialchars($row['LevelName']); ?></p>
@@ -121,13 +134,15 @@ $queryString = http_build_query([
                     View Details
                 </a>
             </div>
+
         <?php endwhile; ?>
     <?php else: ?>
         <div class="programme-card">
             <h2>No programmes found</h2>
-            <p>Try a different keyword or change the level filter.</p>
+            <p>Try another search or filter.</p>
         </div>
     <?php endif; ?>
+
 </div>
 
 </body>
