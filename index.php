@@ -72,12 +72,18 @@ $queryString = http_build_query([
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Course Hub</title>
+    <title>Welcome To Student Course Hub</title>
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
 
 <div class="page-container">
+
+<div class="top-bar">
+    <a href="http://localhost/student-course-hub/admin/login.php" class="admin-login-btn">
+        Login as Admin
+    </a>
+</div>
 
     <h1>Student Course Hub</h1>
     <p>Explore our available undergraduate and postgraduate programmes.</p>

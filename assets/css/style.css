@@ -146,3 +146,24 @@ th, td {
 tr:nth-child(even) {
     background-color: #f9fbff;
 }
+
+/*Top Bar (Admin Login)*/
+.top-bar {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+}
+
+.admin-login-btn {
+    background: #1f2d3d;
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.2s ease;
+}
+
+.admin-login-btn:hover {
+    background: #2b4eff;
+}
